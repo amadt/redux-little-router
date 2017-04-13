@@ -95,7 +95,7 @@ const Fragment = (props: Props) => {
   } = props;
 
   const matcher = (forRoute === parentRoute) ? matchRoute : matchWildcardRoute;
-  const matchResult = matcher(location.pathname, forRoute || parentRoute);
+  const matchResult = matcher(location.pathname, forRoute);
   if (
     !matchResult ||
     (withConditions && !withConditions(location)) ||
