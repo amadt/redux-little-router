@@ -138,6 +138,52 @@ describe('Fragment', () => {
     expect(wrapper.containsMatchingElement(<p>fourth</p>)).to.be.false;
   });
 
+  it('only matches nested slash', () => {
+    const wrapper = mount(
+      <Fragment forRoute='/'>
+        <div>
+          <p>first</p>
+          <Fragment forRoute='/oh'>
+            <p>second</p>
+          </Fragment>
+          <Fragment forRoute='/'>
+            <p>third</p>
+          </Fragment>
+        </div>
+      </Fragment>,
+      fakeContext({
+        pathname: '/',
+        route: '/'
+      })
+    );
+    expect(wrapper.containsMatchingElement(<p>first</p>)).to.be.true;
+    expect(wrapper.containsMatchingElement(<p>second</p>)).to.be.false;
+    expect(wrapper.containsMatchingElement(<p>third</p>)).to.be.true;
+  });
+
+  it('does not greedy match nested slash', () => {
+    const wrapper = mount(
+      <Fragment forRoute='/'>
+        <div>
+          <p>first</p>
+          <Fragment forRoute='/oh'>
+            <p>second</p>
+          </Fragment>
+          <Fragment forRoute='/'>
+            <p>third</p>
+          </Fragment>
+        </div>
+      </Fragment>,
+      fakeContext({
+        pathname: '/oh',
+        route: '/oh'
+      })
+    );
+    expect(wrapper.containsMatchingElement(<p>first</p>)).to.be.true;
+    expect(wrapper.containsMatchingElement(<p>second</p>)).to.be.true;
+    expect(wrapper.containsMatchingElement(<p>third</p>)).to.be.false;
+  });
+
   it('matches nested index', () => {
     const wrapper = mount(
       <Fragment forRoute='/foo'>
