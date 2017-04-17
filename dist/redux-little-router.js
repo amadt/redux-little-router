@@ -305,7 +305,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					key = key.replace(/\[\]$/, '');
 	
 					if (!result || accumulator[key] === undefined) {
-						accumulator[key] = value;
+						accumulator[key] = [value];
 						return;
 					}
 	
@@ -1800,7 +1800,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  }
 	
+	  // Only merge the previous query if it exists
+	  if (options.mergeQuery && oldQuery) {
+	    return {
+	      oldLocation: oldLocation,
+	      newLocation: _extends({}, newLocation, {
+	        query: _extends({}, oldQuery, newLocation.query),
+	        search: mergeSearch(oldSearch, newLocation.search)
+	      })
+	    };
+	  }
+	
 	  return { oldLocation: oldLocation, newLocation: newLocation, options: options };
+	};
+	
+	var mergeSearch = function mergeSearch(oldSearch, newSearch) {
+	  if (oldSearch && newSearch) {
+	    return oldSearch + newSearch.replace('?', '&');
+	  }
+	  return oldSearch || newSearch;
 	};
 	
 	var resolveBasename = function resolveBasename(_ref2) {
