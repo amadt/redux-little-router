@@ -1779,6 +1779,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	};
 	
+	var mergeSearch = function mergeSearch(oldSearch, newSearch) {
+	  if (oldSearch && newSearch) {
+	    return oldSearch + newSearch.replace('?', '&');
+	  }
+	  return oldSearch || newSearch;
+	};
+	
 	var resolveQuery = function resolveQuery(_ref) {
 	  var oldLocation = _ref.oldLocation,
 	      newLocation = _ref.newLocation,
@@ -1807,18 +1814,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      newLocation: _extends({}, newLocation, {
 	        query: _extends({}, oldQuery, newLocation.query),
 	        search: mergeSearch(oldSearch, newLocation.search)
-	      })
+	      }),
+	      options: options
 	    };
 	  }
 	
 	  return { oldLocation: oldLocation, newLocation: newLocation, options: options };
-	};
-	
-	var mergeSearch = function mergeSearch(oldSearch, newSearch) {
-	  if (oldSearch && newSearch) {
-	    return oldSearch + newSearch.replace('?', '&');
-	  }
-	  return oldSearch || newSearch;
 	};
 	
 	var resolveBasename = function resolveBasename(_ref2) {
